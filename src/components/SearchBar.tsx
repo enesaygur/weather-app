@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-
-function SearchBar() {
+interface Props {
+  onSearch: (city: string) => void;
+}
+function SearchBar({ onSearch }: Props) {
   const [city, setCity] = useState("");
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!city.trim()) return;
-
-    console.log("Searching city:", city);
+    
+    onSearch(city.trim());
     setCity("");
   };
   return (
