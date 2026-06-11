@@ -2,9 +2,10 @@ import { useState } from "react";
 import SearchBar from "./components/SearchBar";
 import { getCoordinates, getWeather } from "./services/weatherService";
 import WeatherCard from "./components/WeatherCard";
+import type { WeatherData } from "./types/weather";
 
 function App() {
-  const [weather, setWeather] = useState(null);
+  const [weather, setWeather] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
