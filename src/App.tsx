@@ -3,6 +3,7 @@ import SearchBar from "./components/SearchBar";
 import { getCoordinates, getWeather } from "./services/weatherService";
 import WeatherCard from "./components/WeatherCard";
 import type { WeatherData } from "./types/weather";
+import ForecastCard from "./components/ForecastCard";
 
 function App() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
@@ -32,7 +33,12 @@ function App() {
       <SearchBar onSearch={handleSearch} />
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
-      {weather && <WeatherCard weather={weather} />}
+      {weather && (
+        <>
+          <WeatherCard weather={weather} />
+          <ForecastCard weather={weather} />
+        </>
+      )}
     </>
   );
 }

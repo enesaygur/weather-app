@@ -5,4 +5,10 @@ export interface WeatherData {
     winddirection: number;
     time: string;
   };
+
+  daily: {
+    time: string[];
+    temperature_2m_max: number[];
+    temperature_2m_min: number[];
+  };
 }
