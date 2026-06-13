@@ -21,7 +21,7 @@ export async function getCoordinates(city: string) {
 
 export async function getWeather(lat: number, lon: number) {
   const res = await fetch(
-    `${BASE_URL}?latitude=${lat}&longitude=${lon}&current_weather=true&daily=temperature_2m_max,temperature_2m_min&timezone=auto`,
+    `${BASE_URL}?latitude=${lat}&longitude=${lon}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=auto`,
   );
 
   if (!res.ok) {
