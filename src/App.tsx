@@ -14,12 +14,17 @@ function App() {
   const [error, setError] = useState("");
   const [locationName, setLocationName] = useState("");
   const [country, setCountry] = useState("");
+  const [searchHistory, setSearchHistory] = useState<string[]>([]);
 
   const handleSearch = async (city: string) => {
     setLoading(true);
     setError("");
     try {
       const location = await getCoordinates(city);
+      setSearchHistory((prev) => {
+        if (prev.includes(location.name)) return prev;
+        return [location.name, ...prev];
+      });
 
       setLocationName(location.name);
       setCountry(location.country);
@@ -42,6 +47,14 @@ function App() {
     <>
       <h1>Weather App</h1>
       <SearchBar onSearch={handleSearch} />
+      {searchHistory.length > 0 && (
+        <div>
+          <h2>Recent Searches</h2>
+          {searchHistory.map((city) => (
+            <p key={city}>{city}</p>
+          ))}
+        </div>
+      )}
       {locationName && (
         <LocationCard locationName={locationName} country={country} />
       )}
