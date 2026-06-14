@@ -6,6 +6,7 @@ import type { WeatherData } from "./types/weather";
 import ForecastCard from "./components/ForecastCard";
 import LocationCard from "./components/LocationCard";
 import Loading from "./components/Loading";
+import ErrorMessage from "./components/ErrorMessage";
 
 function App() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
@@ -31,6 +32,8 @@ function App() {
       setWeather(weatherData);
     } catch (err) {
       setError("City not found");
+      setWeather(null);
+      setLocationName("");
     } finally {
       setLoading(false);
     }
@@ -43,7 +46,7 @@ function App() {
         <LocationCard locationName={locationName} country={country} />
       )}
       {loading && <Loading />}
-      {error && <p>{error}</p>}
+      {error && <ErrorMessage message={error} />}
       {weather && (
         <>
           <WeatherCard weather={weather} />
