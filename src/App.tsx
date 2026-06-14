@@ -5,6 +5,7 @@ import WeatherCard from "./components/WeatherCard";
 import type { WeatherData } from "./types/weather";
 import ForecastCard from "./components/ForecastCard";
 import LocationCard from "./components/LocationCard";
+import Loading from "./components/Loading";
 
 function App() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
@@ -41,7 +42,7 @@ function App() {
       {locationName && (
         <LocationCard locationName={locationName} country={country} />
       )}
-      {loading && <p>Loading...</p>}
+      {loading && <Loading />}
       {error && <p>{error}</p>}
       {weather && (
         <>
