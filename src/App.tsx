@@ -7,6 +7,7 @@ import ForecastCard from "./components/ForecastCard";
 import LocationCard from "./components/LocationCard";
 import Loading from "./components/Loading";
 import ErrorMessage from "./components/ErrorMessage";
+import SearchHistory from "./components/SearchHistory";
 
 function App() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
@@ -47,14 +48,7 @@ function App() {
     <>
       <h1>Weather App</h1>
       <SearchBar onSearch={handleSearch} />
-      {searchHistory.length > 0 && (
-        <div>
-          <h2>Recent Searches</h2>
-          {searchHistory.map((city) => (
-            <p key={city}>{city}</p>
-          ))}
-        </div>
-      )}
+      {searchHistory.length > 0 && <SearchHistory history={searchHistory} />}
       {locationName && (
         <LocationCard locationName={locationName} country={country} />
       )}
