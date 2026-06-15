@@ -54,7 +54,7 @@ function App() {
     <>
       <h1>Weather App</h1>
       <SearchBar onSearch={handleSearch} />
-      {searchHistory.length > 0 && <SearchHistory history={searchHistory} />}
+      {searchHistory.length > 0 && <SearchHistory history={searchHistory} onSelect={handleSearch} />}
       {locationName && (
         <LocationCard locationName={locationName} country={country} />
       )}
