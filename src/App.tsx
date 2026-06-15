@@ -26,8 +26,8 @@ function App() {
     try {
       const location = await getCoordinates(city);
       setSearchHistory((prev) => {
-        if (prev.includes(location.name)) return prev;
-        return [location.name, ...prev];
+        const filtered = prev.filter((item) => item !== location.name);
+        return [location.name, ...filtered].slice(0, 5) ;
       });
 
       setLocationName(location.name);
