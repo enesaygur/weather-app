@@ -7,8 +7,7 @@ import ForecastCard from "./components/ForecastCard";
 import LocationCard from "./components/LocationCard";
 import Loading from "./components/Loading";
 import ErrorMessage from "./components/ErrorMessage";
-import SearchHistory from "./components/SearchHistory";
-import FavoriteCities from "./components/FavoriteCities";
+import CityList from "./components/CityList";
 
 function App() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
@@ -63,6 +62,10 @@ function App() {
     setFavorites((prev) => prev.filter((item) => item !== city));
   };
 
+  const removeFromHistory = (city: string) => {
+    setSearchHistory((prev) => prev.filter((item) => item !== city));
+  };
+
   useEffect(() => {
     localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
   }, [searchHistory]);
@@ -75,15 +78,17 @@ function App() {
       <h1>Weather App</h1>
       <SearchBar onSearch={handleSearch} />
       {searchHistory.length > 0 && (
-        <SearchHistory
-          history={searchHistory}
+        <CityList
+          title="Recent Searches"
+          items={searchHistory}
           onSelect={handleSearch}
-          onClear={() => setSearchHistory([])}
+          onRemove={removeFromHistory}
         />
       )}
       {favorites.length > 0 && (
-        <FavoriteCities
-          favorites={favorites}
+        <CityList
+          title="Favorite Cities"
+          items={favorites}
           onSelect={handleSearch}
           onRemove={removeFavorite}
         />
