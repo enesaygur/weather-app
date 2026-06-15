@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchBar from "./components/SearchBar";
 import { getCoordinates, getWeather } from "./services/weatherService";
 import WeatherCard from "./components/WeatherCard";
@@ -15,7 +15,10 @@ function App() {
   const [error, setError] = useState("");
   const [locationName, setLocationName] = useState("");
   const [country, setCountry] = useState("");
-  const [searchHistory, setSearchHistory] = useState<string[]>([]);
+  const [searchHistory, setSearchHistory] = useState<string[]>(() => {
+    const saved = localStorage.getItem("searchHistory");
+    return saved ? JSON.parse(saved) : [];
+  });
 
   const handleSearch = async (city: string) => {
     setLoading(true);
@@ -44,6 +47,9 @@ function App() {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+  }, [searchHistory]);
   return (
     <>
       <h1>Weather App</h1>
