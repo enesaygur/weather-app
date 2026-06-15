@@ -8,6 +8,7 @@ import LocationCard from "./components/LocationCard";
 import Loading from "./components/Loading";
 import ErrorMessage from "./components/ErrorMessage";
 import SearchHistory from "./components/SearchHistory";
+import FavoriteCities from "./components/FavoriteCities";
 
 function App() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
@@ -18,6 +19,10 @@ function App() {
   const [searchHistory, setSearchHistory] = useState<string[]>(() => {
     const saved = localStorage.getItem("searchHistory");
     return saved ? JSON.parse(saved) : [];
+  });
+  const [favorites, setFavorites] = useState<string[]>(() => {
+    const faved = localStorage.getItem("favorites");
+    return faved ? JSON.parse(faved) : [];
   });
 
   const handleSearch = async (city: string) => {
@@ -47,9 +52,24 @@ function App() {
       setLoading(false);
     }
   };
+  const addFavorite = (city: string) => {
+    setFavorites((prev) => {
+      if (prev.includes(city)) return prev;
+      return [city, ...prev];
+    });
+  };
+
+  const removeFavorite = (city: string) => {
+    setFavorites((prev) => prev.filter((item) => item !== city));
+  };
+
   useEffect(() => {
     localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
   }, [searchHistory]);
+
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
   return (
     <>
       <h1>Weather App</h1>
@@ -61,6 +81,13 @@ function App() {
           onClear={() => setSearchHistory([])}
         />
       )}
+      {favorites.length > 0 && (
+        <FavoriteCities
+          favorites={favorites}
+          onSelect={handleSearch}
+          onRemove={removeFavorite}
+        />
+      )}
       {locationName && (
         <LocationCard locationName={locationName} country={country} />
       )}
@@ -68,7 +95,11 @@ function App() {
       {error && <ErrorMessage message={error} />}
       {weather && (
         <>
-          <WeatherCard weather={weather} />
+          <WeatherCard
+            weather={weather}
+            locationName={locationName}
+            onFavorite={addFavorite}
+          />
           <ForecastCard weather={weather} />
         </>
       )}
