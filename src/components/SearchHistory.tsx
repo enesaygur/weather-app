@@ -1,8 +1,9 @@
 interface Props {
   history: string[];
   onSelect: (city: string) => void;
+  onClear: () => void;
 }
-function SearchHistory({ history, onSelect }: Props) {
+function SearchHistory({ history, onSelect, onClear }: Props) {
   return (
     <div>
       <h2>Recent Searches</h2>
@@ -15,6 +16,7 @@ function SearchHistory({ history, onSelect }: Props) {
           {city}
         </p>
       ))}
+      <button onClick={onClear}>Clear History</button>
     </div>
   );
 }

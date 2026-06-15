@@ -27,7 +27,7 @@ function App() {
       const location = await getCoordinates(city);
       setSearchHistory((prev) => {
         const filtered = prev.filter((item) => item !== location.name);
-        return [location.name, ...filtered].slice(0, 5) ;
+        return [location.name, ...filtered].slice(0, 5);
       });
 
       setLocationName(location.name);
@@ -54,7 +54,13 @@ function App() {
     <>
       <h1>Weather App</h1>
       <SearchBar onSearch={handleSearch} />
-      {searchHistory.length > 0 && <SearchHistory history={searchHistory} onSelect={handleSearch} />}
+      {searchHistory.length > 0 && (
+        <SearchHistory
+          history={searchHistory}
+          onSelect={handleSearch}
+          onClear={() => setSearchHistory([])}
+        />
+      )}
       {locationName && (
         <LocationCard locationName={locationName} country={country} />
       )}
