@@ -50,11 +50,19 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
-  }, [searchHistory]);
+    localStorage.setItem("lastCity", locationName);
+  }, [searchHistory, locationName]);
 
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
+
+  const lastCity = localStorage.getItem("lastCity");
+  useEffect(() => {
+    if (lastCity) {
+      handleSearch(lastCity);
+    }
+  }, []);
   return (
     <>
       <h1>Weather App</h1>
