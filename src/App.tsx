@@ -12,6 +12,8 @@ function App() {
   const { weather, loading, error, locationName, country, search } =
     useWeather();
 
+  const [unit, setUnit] = useState<"C" | "F">("C");
+
   const [searchHistory, setSearchHistory] = useState<string[]>(() => {
     const saved = localStorage.getItem("searchHistory");
     return saved ? JSON.parse(saved) : [];
@@ -56,6 +58,9 @@ function App() {
   return (
     <>
       <h1>Weather App</h1>
+      <button onClick={() => setUnit((prev) => (prev === "C" ? "F" : "C"))}>
+        °{unit}
+      </button>
       <SearchBar onSearch={handleSearch} />
       {searchHistory.length > 0 && (
         <CityList
@@ -84,8 +89,9 @@ function App() {
             weather={weather}
             locationName={locationName}
             onFavorite={addFavorite}
+            unit={unit}
           />
-          <ForecastCard weather={weather} />
+          <ForecastCard weather={weather} unit={unit} />
         </>
       )}
     </>
